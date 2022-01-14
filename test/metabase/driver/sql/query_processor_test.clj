@@ -321,7 +321,7 @@
 
 (deftest ambiguous-field-metadata-test
   (testing "With queries that refer to the same field more than once, can we generate sane SQL?"
-    (mt/dataset sample-dataset
+    (mt/dataset sample-database
       (is (= (str "SELECT"
                   " ORDERS.ID AS ID,"
                   " ORDERS.PRODUCT_ID AS PRODUCT_ID,"
@@ -356,7 +356,7 @@
 
 (deftest multiple-joins-with-expressions-test
   (testing "We should be able to compile a complicated query with multiple joins and expressions correctly"
-    (mt/dataset sample-dataset
+    (mt/dataset sample-database
       (is (= (str "SELECT source.PRODUCTS__via__PRODUCT_ID__CATEGORY AS PRODUCTS__via__PRODUCT_ID__CATEGORY,"
                   " source.PEOPLE__via__USER_ID__SOURCE AS PEOPLE__via__USER_ID__SOURCE,"
                   " parsedatetime(year(source.CREATED_AT), 'yyyy') AS CREATED_AT,"
@@ -538,7 +538,7 @@
      :limit        2}))
 
 (deftest source-aliases-test
-  (mt/dataset sample-dataset
+  (mt/dataset sample-database
     (mt/with-everything-store
       (let [query       (mega-query)
             small-query (get-in query [:query :source-query])]
@@ -555,7 +555,7 @@
                  (:source-fields (#'sql.qp/source-aliases :h2 (:query query))))))))))
 
 (defn mini-query []
-  (mt/dataset sample-dataset
+  (mt/dataset sample-database
     (qp/query->preprocessed
      (mt/mbql-query orders
        {:source-table $$orders
@@ -576,7 +576,7 @@
 
 (deftest use-correct-source-aliases-test
   (testing "Should generate correct SQL for joins against source queries that contain joins (#12928)")
-  (mt/dataset sample-dataset
+  (mt/dataset sample-database
     (is (= (->> ["SELECT source.P1__CATEGORY AS P1__CATEGORY,"
                  "       source.People__SOURCE AS People__SOURCE,"
                  "       source.count AS count,"

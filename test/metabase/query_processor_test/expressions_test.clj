@@ -374,7 +374,7 @@
 (deftest expression-with-duplicate-column-name
   (mt/test-drivers (mt/normal-drivers-with-feature :expressions)
     (testing "Can we use expression with same column name as table (#14267)"
-      (mt/dataset sample-dataset
+      (mt/dataset sample-database
         (is (= [["Doohickey2" 42]]
                (mt/formatted-rows [str int]
                  (mt/run-mbql-query products
@@ -387,7 +387,7 @@
 (deftest fk-field-and-duplicate-names-test
   (mt/test-drivers (mt/normal-drivers-with-feature :expressions :foreign-keys)
     (testing "Expressions with `fk->` fields and duplicate names should work correctly (#14854)"
-      (mt/dataset sample-dataset
+      (mt/dataset sample-database
         (let [results (mt/run-mbql-query orders
                         {:expressions {"CE" [:case
                                              [[[:> $discount 0] $created_at]]
