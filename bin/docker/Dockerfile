@@ -1,4 +1,5 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+#FROM adoptopenjdk/openjdk11:alpine-jre
+FROM bellsoft/liberica-openjdk-alpine
 
 ENV FC_LANG en-US LC_CTYPE en_US.UTF-8
 
